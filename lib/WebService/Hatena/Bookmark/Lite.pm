@@ -43,8 +43,9 @@ sub add{
 
     $entry->summary( $self->_make_summary($tag,$comment) );
 
-    return $self->client->createEntry($PostURI , $entry)
+    $url = $self->client->createEntry($PostURI , $entry)
         or croak $self->client->errstr;
+    return $url;
 }
 
 sub getEntry{
@@ -52,8 +53,9 @@ sub getEntry{
 
     my $EditURI = $arg{edit_ep};
 
-    return $self->client->getEntry( $EditURI )
+    my $entry = $self->client->getEntry( $EditURI )
         or croak $self->client->errstr;
+    return $entry;
 }
 
 sub edit{
@@ -68,8 +70,9 @@ sub edit{
 
     $entry->summary( $self->_make_summary($tag,$comment) );
 
-    return $self->client->updateEntry($EditURI , $entry)
+    my $is_success = $self->client->updateEntry($EditURI , $entry)
         or croak $self->client->errstr;
+    return $is_success;
 }
 
 sub delete{
@@ -77,15 +80,17 @@ sub delete{
 
     my $EditURI = $arg{edit_ep};
 
-    return $self->client->deleteEntry($EditURI )
+    my $is_success = $self->client->deleteEntry($EditURI )
         or croak $self->client->errstr;
+    return $is_success;
 }
 
 sub getFeed{
     my $self = shift;
 
-    return $self->client->getFeed( $FeedURI )
+    my $feed = $self->client->getFeed( $FeedURI )
         or croak $self->client->errstr;
+    return $feed;
 }
 
 sub entry2edit_ep{
